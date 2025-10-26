@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Maker Ultimate - Complete Analysis</title>
+    <style>
+        :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-gray-400: rgba(119, 124, 124, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-400: rgba(45, 166, 178, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-red-500: rgba(192, 21, 47, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-orange-500: rgba(168, 75, 47, 1);
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-slate-900-rgb: 19, 52, 59;
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-error: var(--color-red-500);
+            --color-success: var(--color-teal-500);
+            --color-warning: var(--color-orange-500);
+            --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-24: 24px;
+            --space-32: 32px;
+            --radius-base: 8px;
+            --radius-lg: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-family-base); font-size: 14px; line-height: 1.5; color: var(--color-text); background: var(--color-background); }
+        .container { max-width: 900px; margin: 0 auto; padding: var(--space-24); }
+        .tab-bar { position: sticky; top: 0; background: var(--color-surface); border-bottom: 2px solid var(--color-border); z-index: 1000; overflow-x: auto; white-space: nowrap; padding: var(--space-12) var(--space-16); display: none; }
+        .tab-btn { display: inline-block; padding: var(--space-8) var(--space-16); margin-right: var(--space-8); border: none; background: transparent; color: var(--color-text-secondary); cursor: pointer; border-radius: var(--radius-base); font-size: 13px; }
+        .tab-btn:hover { background: var(--color-secondary); }
+        .tab-btn.active { background: var(--color-primary); color: white; }
+        .tab-content { display: none; min-height: calc(100vh - 80px); padding: var(--space-32) 0; }
+        .tab-content.active { display: block; }
+        .hero { text-align: center; margin-bottom: var(--space-32); }
+        .hero h1 { font-size: 42px; margin-bottom: var(--space-16); }
+        .hero .subtitle { font-size: 18px; color: var(--color-text-secondary); margin-bottom: var(--space-32); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-24); margin: var(--space-32) 0; }
+        .feature-card { text-align: center; padding: var(--space-24); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+        .feature-card .icon { font-size: 48px; margin-bottom: var(--space-16); }
+        .feature-card h3 { font-size: 16px; margin-bottom: var(--space-8); }
+        .feature-card p { font-size: 13px; color: var(--color-text-secondary); }
+        .btn { display: inline-block; padding: var(--space-12) var(--space-24); border: none; border-radius: var(--radius-base); font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; }
+        .btn--primary { background: var(--color-primary); color: white; }
+        .btn--primary:hover { background: var(--color-primary-hover); }
+        .btn--secondary { background: var(--color-secondary); color: var(--color-text); }
+        .btn--lg { padding: var(--space-16) var(--space-32); font-size: 16px; }
+        .quick-actions { display: flex; gap: var(--space-16); justify-content: center; margin-top: var(--space-24); }
+        .form-section { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-32); margin-bottom: var(--space-24); }
+        .input-group { margin-bottom: var(--space-24); }
+        .input-group label { display: block; margin-bottom: var(--space-8); font-weight: 500; }
+        .form-control { width: 100%; padding: var(--space-12); border: 1px solid var(--color-border); border-radius: var(--radius-base); background: var(--color-surface); color: var(--color-text); font-size: 14px; }
+        .form-control:focus { outline: none; border-color: var(--color-primary); }
+        textarea.form-control { resize: vertical; min-height: 100px; }
+        .required { color: var(--color-error); }
+        .tab-navigation { display: flex; justify-content: space-between; gap: var(--space-12); margin-top: var(--space-32); padding-top: var(--space-24); border-top: 1px solid var(--color-border); }
+        .helper-text { font-size: 12px; color: var(--color-text-secondary); margin-top: var(--space-8); }
+        .calc-display { padding: var(--space-16); background: rgba(var(--color-teal-500-rgb), 0.08); border: 1px solid var(--color-primary); border-radius: var(--radius-base); margin-top: var(--space-16); }
+        .benefit-row, .cost-row { display: grid; grid-template-columns: 2fr 1fr 80px 60px; gap: var(--space-12); margin-bottom: var(--space-12); align-items: center; }
+        .btn-remove { background: var(--color-error); color: white; border: none; padding: var(--space-8); border-radius: var(--radius-base); cursor: pointer; font-size: 18px; }
+        .score-display { font-size: 24px; font-weight: bold; color: var(--color-primary); margin: var(--space-16) 0; }
+        .comparison-bars { margin: var(--space-24) 0; }
+        .bar-row { margin-bottom: var(--space-16); }
+        .bar-label { font-weight: 500; margin-bottom: var(--space-8); }
+        .bar { height: 32px; background: var(--color-secondary); border-radius: var(--radius-base); overflow: hidden; position: relative; }
+        .bar-fill { height: 100%; transition: width 0.5s ease; }
+        .benefits-fill { background: var(--color-success); }
+        .costs-fill { background: var(--color-error); }
+        .slider-group { margin-bottom: var(--space-16); }
+        .slider-label { display: flex; justify-content: space-between; margin-bottom: var(--space-8); }
+        input[type="range"] { width: 100%; }
+        .bias-category { margin-bottom: var(--space-16); }
+        .bias-category h4 { margin-bottom: var(--space-12); font-size: 14px; }
+        .checkbox-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-8); }
+        .checkbox-label { display: flex; align-items: center; gap: var(--space-8); padding: var(--space-8); }
+        .checkbox-label input { margin: 0; }
+        .sensitivity-table { width: 100%; border-collapse: collapse; margin-top: var(--space-16); }
+        .sensitivity-table th, .sensitivity-table td { padding: var(--space-12); border: 1px solid var(--color-border); text-align: center; }
+        .sensitivity-table th { background: var(--color-secondary); font-weight: 600; }
+        .sensitivity-table tr.highlight { background: rgba(var(--color-teal-500-rgb), 0.1); }
+        .risk-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-16); margin-top: var(--space-16); }
+        .risk-card { padding: var(--space-16); background: var(--color-secondary); border-radius: var(--radius-base); text-align: center; }
+        .risk-card .label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: var(--space-8); }
+        .risk-card .value { font-size: 24px; font-weight: bold; color: var(--color-primary); }
+        .insight-dashboard { margin-top: var(--space-32); }
+        .dashboard-section { margin-bottom: var(--space-32); }
+        .dashboard-section h3 { font-size: 20px; margin-bottom: var(--space-16); padding-bottom: var(--space-12); border-bottom: 2px solid var(--color-border); }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-16); }
+        .metric-card { padding: var(--space-16); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-base); text-align: center; }
+        .metric-card .metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: var(--space-8); }
+        .metric-card .metric-value { font-size: 28px; font-weight: bold; color: var(--color-text); }
+        .recommendation-badge { display: inline-block; padding: var(--space-16) var(--space-32); border-radius: 50px; font-size: 24px; font-weight: bold; margin: var(--space-16) 0; }
+        .badge-go { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 2px solid #10b981; }
+        .badge-wait { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 2px solid #f59e0b; }
+        .badge-no { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 2px solid #ef4444; }
+        .insights-list { list-style: none; padding: 0; }
+        .insights-list li { padding: var(--space-8) 0 var(--space-8) var(--space-24); position: relative; }
+        .insights-list li:before { content: '•'; position: absolute; left: 0; color: var(--color-primary); font-weight: bold; font-size: 18px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-16); margin-bottom: var(--space-32); }
+        .stat-card { padding: var(--space-20); background: var(--color-secondary); border-radius: var(--radius-base); text-align: center; }
+        .stat-value { font-size: 36px; font-weight: bold; color: var(--color-primary); }
+        .stat-label { font-size: 12px; color: var(--color-text-secondary); margin-top: var(--space-8); }
+        @media (max-width: 768px) {
+            .container { padding: var(--space-16); }
+            .features-grid { grid-template-columns: 1fr; }
+            .benefit-row, .cost-row { grid-template-columns: 1fr; }
+            .quick-actions { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <nav id="tab-bar" class="tab-bar">
+            <button class="tab-btn active" onclick="goToTab('start')">🏠 Start</button>
+            <button class="tab-btn" onclick="goToTab('basic-info')">📊 Info</button>
+            <button class="tab-btn" onclick="goToTab('financial')">💰 Financial</button>
+            <button class="tab-btn" onclick="goToTab('benefits-costs')">⚖️ Benefits</button>
+            <button class="tab-btn" onclick="goToTab('expected-value')">📈 EV</button>
+            <button class="tab-btn" onclick="goToTab('sensitivity')">🔍 Sensitivity</button>
+            <button class="tab-btn" onclick="goToTab('risk')">⚠️ Risk</button>
+            <button class="tab-btn" onclick="goToTab('biases')">🧠 Biases</button>
+            <button class="tab-btn" onclick="goToTab('regret')">⏱️ Regret</button>
+            <button class="tab-btn" onclick="goToTab('opportunity')">🎯 Opportunity</button>
+            <button class="tab-btn" onclick="goToTab('history-check')">📋 History</button>
+            <button class="tab-btn" onclick="goToTab('insights')">💡 Insights</button>
+            <button class="tab-btn" onclick="goToTab('history-archive')">📚 Archive</button>
+        </nav>
+
+        <div id="tab-container">
+            <!-- TAB 1: START -->
+            <div id="tab-start" class="tab-content active">
+                <div class="container">
+                    <div class="hero">
+                        <h1>Decision Maker Ultimate</h1>
+                        <p class="subtitle">Make Smarter Purchase Decisions with Data &amp; Psychology</p>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="icon">📊</div>
+                                <h3>12 Analysis Modules</h3>
+                                <p>Comprehensive evaluation from every angle</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon">🧠</div>
+                                <h3>23 Bias Detection</h3>
+                                <p>Identify emotional blind spots</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon">💰</div>
+                                <h3>Financial Analysis</h3>
+                                <p>EV, ROI, Cost-per-Use calculations</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon">📈</div>
+                                <h3>Risk Scenarios</h3>
+                                <p>Best, base, and worst-case outcomes</p>
+                            </div>
+                        </div>
+                        <button class="btn btn--primary btn--lg" onclick="startNewAssessment()">Start New Assessment →</button>
+                        <div class="quick-actions">
+                            <button class="btn btn--secondary" onclick="goToTab('history-archive')">📋 View History</button>
+                            <button class="btn btn--secondary" onclick="loadExample()">📄 Load Example</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: BASIC INFO -->
+            <div id="tab-basic-info" class="tab-content">
+                <div class="container">
+                    <h2>📊 Basic Information</h2>
+                    <p class="helper-text">Let's start with the fundamentals</p>
+                    <div class="form-section">
+                        <div class="input-group">
+                            <label>What are you deciding on? <span class="required">*</span></label>
+                            <input type="text" id="decision-title" class="form-control" placeholder="Example: Buy GoPro Hero 12">
+                        </div>
+                        <div class="input-group">
+                            <label>What's your goal? <span class="required">*</span></label>
+                            <textarea id="decision-goal" class="form-control" placeholder="Example: Capture travel content for YouTube"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>Total Budget (₹) <span class="required">*</span></label>
+                            <input type="number" id="total-budget" class="form-control" min="0" placeholder="200000">
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('start')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('basic-info', 'financial')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: FINANCIAL -->
+            <div id="tab-financial" class="tab-content">
+                <div class="container">
+                    <h2>💰 Financial Analysis</h2>
+                    <div class="form-section">
+                        <div class="input-group">
+                            <label>Purchase Cost (₹) <span class="required">*</span></label>
+                            <input type="number" id="purchase-cost" class="form-control" min="0" oninput="updateFinancialCalc()">
+                        </div>
+                        <div class="input-group">
+                            <label>Monthly Recurring Costs (₹)</label>
+                            <input type="number" id="monthly-recurring" class="form-control" min="0" value="0" oninput="updateFinancialCalc()">
+                        </div>
+                        <div class="input-group">
+                            <label>Annual Maintenance (₹)</label>
+                            <input type="number" id="annual-maintenance" class="form-control" min="0" value="0" oninput="updateFinancialCalc()">
+                        </div>
+                        <div class="input-group">
+                            <label>Expected Resale Value (₹) <span class="required">*</span></label>
+                            <input type="number" id="resale-value" class="form-control" min="0" oninput="updateFinancialCalc()">
+                        </div>
+                        <div class="input-group">
+                            <label>Realistic Yearly Uses <span class="required">*</span></label>
+                            <input type="number" id="yearly-uses" class="form-control" min="1" oninput="updateFinancialCalc()">
+                        </div>
+                        <div id="financial-display" class="calc-display" style="display:none;">
+                            <strong>Real-time Calculations:</strong><br>
+                            Year 1 Total: <span id="display-year1">₹0</span><br>
+                            Year 3 Total: <span id="display-year3">₹0</span><br>
+                            Cost per Use: <span id="display-cpu">₹0</span><br>
+                            Net Loss if Unused: <span id="display-net-loss">₹0</span><br>
+                            Budget Impact: <span id="display-budget-impact">0%</span>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('basic-info')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('financial', 'benefits-costs')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: BENEFITS/COSTS -->
+            <div id="tab-benefits-costs" class="tab-content">
+                <div class="container">
+                    <h2>⚖️ Benefits vs Costs</h2>
+                    <div class="form-section">
+                        <h3>Benefits</h3>
+                        <div id="benefits-list"></div>
+                        <button class="btn btn--secondary" onclick="addBenefit()">+ Add Benefit</button>
+                        <div class="score-display">Total Benefits Score: <span id="total-benefits">0/50</span></div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Costs</h3>
+                        <div id="costs-list"></div>
+                        <button class="btn btn--secondary" onclick="addCost()">+ Add Cost</button>
+                        <div class="score-display">Total Costs Score: <span id="total-costs">0/50</span></div>
+                    </div>
+                    <div class="comparison-bars">
+                        <div class="bar-row">
+                            <div class="bar-label">Benefits: <span id="benefits-percent">0%</span></div>
+                            <div class="bar"><div id="benefits-bar" class="bar-fill benefits-fill" style="width:0%"></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Costs: <span id="costs-percent">0%</span></div>
+                            <div class="bar"><div id="costs-bar" class="bar-fill costs-fill" style="width:0%"></div></div>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('financial')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('benefits-costs', 'expected-value')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: EXPECTED VALUE -->
+            <div id="tab-expected-value" class="tab-content">
+                <div class="container">
+                    <h2>📈 Expected Value</h2>
+                    <div class="form-section">
+                        <h3>Success Probability Builder</h3>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Base Rate</span><span id="base-rate-val">50%</span></div>
+                            <input type="range" id="base-rate" min="0" max="100" value="50" oninput="updateEV()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Motivation (+/-)</span><span id="motivation-val">0</span></div>
+                            <input type="range" id="motivation-adj" min="-50" max="50" value="0" oninput="updateEV()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Overlap Penalty</span><span id="overlap-val">0</span></div>
+                            <input type="range" id="overlap-adj" min="-50" max="0" value="0" oninput="updateEV()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Time Available (+/-)</span><span id="time-val">0</span></div>
+                            <input type="range" id="time-adj" min="-50" max="50" value="0" oninput="updateEV()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Track Record (+/-)</span><span id="track-val">0</span></div>
+                            <input type="range" id="track-record-adj" min="-50" max="50" value="0" oninput="updateEV()">
+                        </div>
+                        <div class="calc-display">
+                            <strong>Calculated Success Probability:</strong>
+                            <div style="font-size:32px;font-weight:bold;color:var(--color-primary);margin:12px 0;" id="success-prob-value">50%</div>
+                            <div id="prob-breakdown" style="font-size:12px;">50 + 0 + 0 + 0 + 0 = 50%</div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Expected Value Calculation</h3>
+                        <div class="input-group">
+                            <label>Benefit if Success (₹) <span class="required">*</span></label>
+                            <input type="number" id="benefit-success" class="form-control" min="0" oninput="updateEV()">
+                        </div>
+                        <div class="calc-display">
+                            <strong>Net Loss if Fail:</strong> ₹<span id="ev-net-loss">0</span><br>
+                            (Purchase: ₹<span id="ev-purchase">0</span> - Resale: ₹<span id="ev-resale">0</span>)
+                        </div>
+                        <div id="ev-calc-display" class="calc-display" style="display:none;">
+                            <strong>Expected Value Calculation:</strong><br>
+                            <div id="ev-step1"></div>
+                            <div id="ev-step2"></div>
+                            <div id="ev-step3"></div>
+                            <div style="font-size:28px;font-weight:bold;margin-top:12px;" id="ev-result">₹0</div>
+                            <div id="ev-verdict" style="margin-top:8px;"></div>
+                        </div>
+                        <div id="threshold-display" class="calc-display" style="display:none;">
+                            <strong>EV Threshold Analysis:</strong><br>
+                            You need at least <span id="threshold-value" style="font-weight:bold;">0%</span> success rate to break even.<br>
+                            Your estimate: <span id="your-success-rate" style="font-weight:bold;">50%</span>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('benefits-costs')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('expected-value', 'sensitivity')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: SENSITIVITY -->
+            <div id="tab-sensitivity" class="tab-content">
+                <div class="container">
+                    <h2>🔍 Sensitivity Analysis</h2>
+                    <div class="form-section">
+                        <p>Expected Value at different success rates:</p>
+                        <div id="sensitivity-table"></div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('expected-value')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('sensitivity', 'risk')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 7: RISK -->
+            <div id="tab-risk" class="tab-content">
+                <div class="container">
+                    <h2>⚠️ Risk Analysis</h2>
+                    <div class="form-section">
+                        <h3>Worst Case</h3>
+                        <div class="input-group">
+                            <label>Description <span class="required">*</span></label>
+                            <textarea id="worst-desc" class="form-control" placeholder="What's the worst outcome?"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>Financial Loss (₹)</label>
+                            <input type="number" id="worst-loss" class="form-control" min="0" oninput="calculateRisk()">
+                        </div>
+                        <div class="input-group">
+                            <label>Probability (%)</label>
+                            <input type="number" id="worst-prob" class="form-control" min="0" max="100" value="20" oninput="calculateRisk()">
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Base Case</h3>
+                        <div class="input-group">
+                            <label>Description <span class="required">*</span></label>
+                            <textarea id="base-desc" class="form-control" placeholder="Most likely outcome?"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>Net Outcome (₹)</label>
+                            <input type="number" id="base-value" class="form-control" oninput="calculateRisk()">
+                        </div>
+                        <div class="input-group">
+                            <label>Probability (%)</label>
+                            <input type="number" id="base-prob" class="form-control" min="0" max="100" value="50" oninput="calculateRisk()">
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Best Case</h3>
+                        <div class="input-group">
+                            <label>Description <span class="required">*</span></label>
+                            <textarea id="best-desc" class="form-control" placeholder="Best possible outcome?"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>Net Value (₹)</label>
+                            <input type="number" id="best-value" class="form-control" min="0" oninput="calculateRisk()">
+                        </div>
+                        <div class="input-group">
+                            <label>Probability (%)</label>
+                            <input type="number" id="best-prob" class="form-control" min="0" max="100" value="30" oninput="calculateRisk()">
+                        </div>
+                    </div>
+                    <div class="risk-summary">
+                        <div class="risk-card">
+                            <div class="label">Max Downside</div>
+                            <div class="value" id="max-downside">-₹0</div>
+                        </div>
+                        <div class="risk-card">
+                            <div class="label">Weighted Expected</div>
+                            <div class="value" id="weighted-expected">₹0</div>
+                        </div>
+                        <div class="risk-card">
+                            <div class="label">Upside Potential</div>
+                            <div class="value" id="upside-potential">+₹0</div>
+                        </div>
+                        <div class="risk-card">
+                            <div class="label">Risk/Reward Ratio</div>
+                            <div class="value" id="risk-reward">1:0</div>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('sensitivity')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('risk', 'biases')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 8: BIASES -->
+            <div id="tab-biases" class="tab-content">
+                <div class="container">
+                    <h2>🧠 Cognitive Biases</h2>
+                    <div class="score-display">Detected: <span id="bias-count">0/23</span> | Contamination: <span id="bias-percent">0%</span> | <span id="bias-severity">🟢 Low</span></div>
+                    <div class="form-section">
+                        <div class="bias-category">
+                            <h4>Social Biases</h4>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="fomo" onchange="updateBiases()"> FOMO</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="social_proof" onchange="updateBiases()"> Social Proof</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="authority" onchange="updateBiases()"> Authority</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="reciprocity" onchange="updateBiases()"> Reciprocity</label>
+                            </div>
+                        </div>
+                        <div class="bias-category">
+                            <h4>Pricing Biases</h4>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="anchoring" onchange="updateBiases()"> Anchoring</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="scarcity" onchange="updateBiases()"> Scarcity</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="cashless" onchange="updateBiases()"> Cashless Effect</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="denomination" onchange="updateBiases()"> Denomination</label>
+                            </div>
+                        </div>
+                        <div class="bias-category">
+                            <h4>Temporal Biases</h4>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="projection" onchange="updateBiases()"> Projection</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="hyperbolic" onchange="updateBiases()"> Hyperbolic Discounting</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="present_bias" onchange="updateBiases()"> Present Bias</label>
+                            </div>
+                        </div>
+                        <div class="bias-category">
+                            <h4>Emotional Biases</h4>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="loss_aversion" onchange="updateBiases()"> Loss Aversion</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="optimism" onchange="updateBiases()"> Optimism</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="normalcy" onchange="updateBiases()"> Normalcy</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="sunk_cost" onchange="updateBiases()"> Sunk Cost</label>
+                            </div>
+                        </div>
+                        <div class="bias-category">
+                            <h4>Cognitive Biases</h4>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="overconfidence" onchange="updateBiases()"> Overconfidence</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="confirmation" onchange="updateBiases()"> Confirmation</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="framing" onchange="updateBiases()"> Framing</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="decision_fatigue" onchange="updateBiases()"> Decision Fatigue</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="mere_exposure" onchange="updateBiases()"> Mere Exposure</label>
+                            </div>
+                        </div>
+                        <div class="bias-category">
+                            <h4>Behavioral Biases</h4>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="status_quo" onchange="updateBiases()"> Status Quo</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="endowment" onchange="updateBiases()"> Endowment</label>
+                                <label class="checkbox-label"><input type="checkbox" class="bias-check" value="decoy" onchange="updateBiases()"> Decoy Effect</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('risk')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('biases', 'regret')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 9: REGRET -->
+            <div id="tab-regret" class="tab-content">
+                <div class="container">
+                    <h2>⏱️ Regret Assessment</h2>
+                    <div class="form-section">
+                        <div class="input-group">
+                            <label>In 10 Days <span class="required">*</span></label>
+                            <select id="regret-10days" class="form-control" onchange="calculateRegret()">
+                                <option value="">Select...</option>
+                                <option value="0">None</option>
+                                <option value="1">Low</option>
+                                <option value="2">Medium</option>
+                                <option value="3">High</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>In 10 Months <span class="required">*</span></label>
+                            <select id="regret-10months" class="form-control" onchange="calculateRegret()">
+                                <option value="">Select...</option>
+                                <option value="0">None</option>
+                                <option value="1">Low</option>
+                                <option value="2">Medium</option>
+                                <option value="3">High</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>In 10 Years <span class="required">*</span></label>
+                            <select id="regret-10years" class="form-control" onchange="calculateRegret()">
+                                <option value="">Select...</option>
+                                <option value="0">None</option>
+                                <option value="1">Low</option>
+                                <option value="2">Medium</option>
+                                <option value="3">High</option>
+                            </select>
+                        </div>
+                        <div id="regret-result" class="calc-display" style="display:none;">
+                            <strong>Average Regret Score:</strong> <span id="avg-regret" style="font-size:28px;font-weight:bold;">0</span>/3<br>
+                            <div id="regret-verdict" style="margin-top:8px;"></div>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('biases')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('regret', 'opportunity')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 10: OPPORTUNITY -->
+            <div id="tab-opportunity" class="tab-content">
+                <div class="container">
+                    <h2>🎯 Opportunity Cost</h2>
+                    <div class="form-section">
+                        <div class="input-group">
+                            <label>Alternative Uses for Budget <span class="required">*</span></label>
+                            <textarea id="opportunity-alt" class="form-control" placeholder="What else could you do with this money?"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>Is there a better alternative? <span class="required">*</span></label>
+                            <select id="alt-better" class="form-control">
+                                <option value="">Select...</option>
+                                <option value="yes">Yes</option>
+                                <option value="maybe">Maybe</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('regret')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveAndNext('opportunity', 'history-check')">Continue →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 11: HISTORY CHECK -->
+            <div id="tab-history-check" class="tab-content">
+                <div class="container">
+                    <h2>📋 Historical Pattern Check</h2>
+                    <div class="form-section">
+                        <div class="input-group">
+                            <label>Have you bought something similar before? <span class="required">*</span></label>
+                            <select id="bought-similar" class="form-control" onchange="toggleHistoryFields()">
+                                <option value="">Select...</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div id="history-fields" style="display:none;">
+                            <div class="input-group">
+                                <label>What was it?</label>
+                                <input type="text" id="similar-item" class="form-control" placeholder="e.g., DSLR Camera">
+                            </div>
+                            <div class="input-group">
+                                <label>Actual usage rate (1-10)</label>
+                                <input type="range" id="usage-scale" class="form-control" min="1" max="10" value="5">
+                                <div class="helper-text">1 = Barely used, 10 = Used constantly</div>
+                            </div>
+                            <div class="input-group">
+                                <label>Still using it?</label>
+                                <select id="still-using" class="form-control">
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Would buy again?</label>
+                                <select id="buy-again" class="form-control">
+                                    <option value="yes">Yes</option>
+                                    <option value="maybe">Maybe</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('opportunity')">← Back</button>
+                        <button class="btn btn--primary" onclick="generateInsights()">Generate Insights &amp; Results →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 12: INSIGHTS -->
+            <div id="tab-insights" class="tab-content">
+                <div class="container">
+                    <div class="insight-dashboard">
+                        <div class="dashboard-section" style="text-align:center;">
+                            <div id="final-score" style="font-size:72px;font-weight:bold;color:var(--color-primary);">0</div>
+                            <div style="font-size:14px;color:var(--color-text-secondary);margin-bottom:24px;">out of 100</div>
+                            <div id="recommendation-badge" class="recommendation-badge badge-wait">⏳ CALCULATING...</div>
+                            <p id="recommendation-text" style="color:var(--color-text-secondary);margin-top:16px;"></p>
+                        </div>
+
+                        <div class="dashboard-section">
+                            <h3>💰 Financial Analysis</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-label">Cost per Use</div>
+                                    <div class="metric-value" id="insight-cpu">₹0</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Expected Value</div>
+                                    <div class="metric-value" id="insight-ev">₹0</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">ROI Potential</div>
+                                    <div class="metric-value" id="insight-roi">0%</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Budget Impact</div>
+                                    <div class="metric-value" id="insight-budget">0%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-section">
+                            <h3>🧠 Psychological Assessment</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-label">Bias Contamination</div>
+                                    <div class="metric-value" id="insight-biases">0/23</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Emotional Index</div>
+                                    <div class="metric-value" id="insight-emotion">0%</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Regret Risk</div>
+                                    <div class="metric-value" id="insight-regret">Low</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Decision Quality</div>
+                                    <div class="metric-value" id="insight-quality">★★★☆☆</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-section">
+                            <h3>⚖️ Benefits vs Costs</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-label">Benefits Total</div>
+                                    <div class="metric-value" id="insight-benefits-total">0</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Costs Total</div>
+                                    <div class="metric-value" id="insight-costs-total">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-section">
+                            <h3>⚠️ Risk Profile</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-label">Max Downside</div>
+                                    <div class="metric-value" id="insight-downside">-₹0</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Expected Outcome</div>
+                                    <div class="metric-value" id="insight-expected">₹0</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Risk/Reward</div>
+                                    <div class="metric-value" id="insight-risk-reward">1:0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-section">
+                            <h3>💡 Key Insights</h3>
+                            <div style="margin-bottom:24px;">
+                                <h4 style="margin-bottom:12px;">✅ Strengths</h4>
+                                <ul class="insights-list" id="strengths-list"></ul>
+                            </div>
+                            <div style="margin-bottom:24px;">
+                                <h4 style="margin-bottom:12px;">⚠️ Critical Concerns</h4>
+                                <ul class="insights-list" id="concerns-list"></ul>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom:12px;">🎯 Action Plan</h4>
+                                <ol class="insights-list" id="actions-list"></ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--secondary" onclick="goToTab('history-check')">← Back</button>
+                        <button class="btn btn--primary" onclick="saveToHistory()">Save to History</button>
+                        <button class="btn btn--secondary" onclick="startNewAssessment()">New Assessment</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 13: HISTORY ARCHIVE -->
+            <div id="tab-history-archive" class="tab-content">
+                <div class="container">
+                    <h2>📚 Decision History</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-total">0</div>
+                            <div class="stat-label">Total Decisions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-avg">0</div>
+                            <div class="stat-label">Average Score</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-accuracy">N/A</div>
+                            <div class="stat-label">Decision Accuracy</div>
+                        </div>
+                    </div>
+                    <div id="history-list"></div>
+                    <div class="tab-navigation">
+                        <button class="btn btn--primary" onclick="goToTab('start')">Back to Home</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global State
+        const appState = {
+            currentTab: 'start',
+            basicInfo: {},
+            financial: {},
+            benefits: [],
+            costs: [],
+            expectedValue: {},
+            risk: {},
+            biases: [],
+            regret: {},
+            opportunity: {},
+            history: {},
+            finalScore: 0,
+            recommendation: '',
+            savedDecisions: []
+        };
+
+        let benefitCounter = 0;
+        let costCounter = 0;
+
+        // Navigation
+        function goToTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            const target = document.getElementById('tab-' + tabName);
+            if (target) target.classList.add('active');
+            appState.currentTab = tabName;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const btns = document.querySelectorAll('.tab-btn');
+            const tabNames = ['start','basic-info','financial','benefits-costs','expected-value','sensitivity','risk','biases','regret','opportunity','history-check','insights','history-archive'];
+            const idx = tabNames.indexOf(tabName);
+            if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+            window.scrollTo(0, 0);
+            if (tabName === 'sensitivity') generateSensitivity();
+            if (tabName === 'history-archive') renderHistory();
+        }
+
+        function startNewAssessment() {
+            document.getElementById('tab-bar').style.display = 'block';
+            goToTab('basic-info');
+        }
+
+        function saveAndNext(from, to) {
+            if (!validateTab(from)) return;
+            saveTabData(from);
+            goToTab(to);
+        }
+
+        function validateTab(tab) {
+            switch(tab) {
+                case 'basic-info':
+                    const title = document.getElementById('decision-title').value;
+                    const goal = document.getElementById('decision-goal').value;
+                    const budget = document.getElementById('total-budget').value;
+                    if (!title || !goal || !budget) { alert('Please complete all required fields'); return false; }
+                    return true;
+                case 'financial':
+                    const cost = document.getElementById('purchase-cost').value;
+                    const resale = document.getElementById('resale-value').value;
+                    const uses = document.getElementById('yearly-uses').value;
+                    if (!cost || !resale || !uses) { alert('Please complete all required fields'); return false; }
+                    return true;
+                case 'benefits-costs':
+                    if (appState.benefits.length === 0) { alert('Please add at least one benefit'); return false; }
+                    if (appState.costs.length === 0) { alert('Please add at least one cost'); return false; }
+                    return true;
+                case 'expected-value':
+                    const benefit = document.getElementById('benefit-success').value;
+                    if (!benefit || parseFloat(benefit) <= 0) { alert('Please enter benefit if successful'); return false; }
+                    return true;
+                case 'risk':
+                    const wd = document.getElementById('worst-desc').value;
+                    const bd = document.getElementById('base-desc').value;
+                    const bestd = document.getElementById('best-desc').value;
+                    if (!wd || !bd || !bestd) { alert('Please describe all risk scenarios'); return false; }
+                    return true;
+                case 'regret':
+                    const r1 = document.getElementById('regret-10days').value;
+                    const r2 = document.getElementById('regret-10months').value;
+                    const r3 = document.getElementById('regret-10years').value;
+                    if (!r1 || !r2 || !r3) { alert('Please answer all regret questions'); return false; }
+                    return true;
+                case 'opportunity':
+                    const alt = document.getElementById('opportunity-alt').value;
+                    const better = document.getElementById('alt-better').value;
+                    if (!alt || !better) { alert('Please complete all fields'); return false; }
+                    return true;
+                case 'history-check':
+                    const similar = document.getElementById('bought-similar').value;
+                    if (!similar) { alert('Please answer if you bought something similar'); return false; }
+                    return true;
+                default:
+                    return true;
+            }
+        }
+
+        function saveTabData(tab) {
+            switch(tab) {
+                case 'basic-info':
+                    appState.basicInfo = {
+                        title: document.getElementById('decision-title').value,
+                        goal: document.getElementById('decision-goal').value,
+                        budget: parseFloat(document.getElementById('total-budget').value)
+                    };
+                    break;
+                case 'financial':
+                    const purchase = parseFloat(document.getElementById('purchase-cost').value);
+                    const monthly = parseFloat(document.getElementById('monthly-recurring').value) || 0;
+                    const annual = parseFloat(document.getElementById('annual-maintenance').value) || 0;
+                    const resale = parseFloat(document.getElementById('resale-value').value);
+                    const uses = parseInt(document.getElementById('yearly-uses').value);
+                    const year1 = purchase + (monthly * 12) + annual;
+                    const cpu = year1 / uses;
+                    appState.financial = { purchase, monthly, annual, resale, uses, year1, cpu, netLoss: purchase - resale };
+                    break;
+            }
+        }
+
+        // Financial Calculations
+        function updateFinancialCalc() {
+            const purchase = parseFloat(document.getElementById('purchase-cost').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthly-recurring').value) || 0;
+            const annual = parseFloat(document.getElementById('annual-maintenance').value) || 0;
+            const resale = parseFloat(document.getElementById('resale-value').value) || 0;
+            const uses = parseInt(document.getElementById('yearly-uses').value) || 1;
+            const budget = appState.basicInfo.budget || 1;
+            const year1 = purchase + (monthly * 12) + annual;
+            const year3 = purchase + (monthly * 36) + (annual * 3);
+            const cpu = year1 / uses;
+            const netLoss = purchase - resale;
+            const impact = (year1 / budget) * 100;
+            document.getElementById('display-year1').textContent = '₹' + year1.toFixed(0);
+            document.getElementById('display-year3').textContent = '₹' + year3.toFixed(0);
+            document.getElementById('display-cpu').textContent = '₹' + cpu.toFixed(2);
+            document.getElementById('display-net-loss').textContent = '₹' + netLoss.toFixed(0);
+            document.getElementById('display-budget-impact').textContent = impact.toFixed(1) + '%';
+            document.getElementById('financial-display').style.display = 'block';
+        }
+
+        // Benefits Management
+        function addBenefit() {
+            benefitCounter++;
+            const html = `<div class="benefit-row" id="benefit-${benefitCounter}">
+                <input type="text" class="b-desc form-control" placeholder="Benefit description">
+                <select class="b-freq form-control">
+                    <option value="4">Daily (4)</option>
+                    <option value="3">Weekly (3)</option>
+                    <option value="2" selected>Monthly (2)</option>
+                    <option value="1">Rarely (1)</option>
+                </select>
+                <input type="number" class="b-importance form-control" min="1" max="5" value="3" placeholder="1-5">
+                <button class="btn-remove" onclick="removeBenefit(${benefitCounter})">×</button>
+            </div>`;
+            document.getElementById('benefits-list').insertAdjacentHTML('beforeend', html);
+            attachBenefitListeners();
+        }
+
+        function removeBenefit(id) {
+            document.getElementById('benefit-' + id).remove();
+            calculateBenefits();
+        }
+
+        function attachBenefitListeners() {
+            document.querySelectorAll('.benefit-row').forEach(row => {
+                row.querySelectorAll('input, select').forEach(el => {
+                    el.removeEventListener('input', calculateBenefits);
+                    el.addEventListener('input', calculateBenefits);
+                });
+            });
+        }
+
+        function calculateBenefits() {
+            let total = 0;
+            appState.benefits = [];
+            document.querySelectorAll('.benefit-row').forEach(row => {
+                const desc = row.querySelector('.b-desc').value;
+                const freq = parseInt(row.querySelector('.b-freq').value);
+                const importance = parseInt(row.querySelector('.b-importance').value);
+                const score = freq * importance;
+                total += score;
+                if (desc) appState.benefits.push({ desc, freq, importance, score });
+            });
+            document.getElementById('total-benefits').textContent = total + '/50';
+            const pct = Math.round((total/50)*100);
+            document.getElementById('benefits-percent').textContent = pct + '%';
+            document.getElementById('benefits-bar').style.width = pct + '%';
+        }
+
+        // Costs Management
+        function addCost() {
+            costCounter++;
+            const html = `<div class="cost-row" id="cost-${costCounter}">
+                <input type="text" class="c-desc form-control" placeholder="Cost description">
+                <select class="c-type form-control">
+                    <option value="money">Money</option>
+                    <option value="time">Time</option>
+                    <option value="energy">Energy</option>
+                    <option value="clutter">Clutter</option>
+                </select>
+                <input type="number" class="c-pain form-control" min="1" max="5" value="3" placeholder="1-5">
+                <button class="btn-remove" onclick="removeCost(${costCounter})">×</button>
+            </div>`;
+            document.getElementById('costs-list').insertAdjacentHTML('beforeend', html);
+            attachCostListeners();
+        }
+
+        function removeCost(id) {
+            document.getElementById('cost-' + id).remove();
+            calculateCosts();
+        }
+
+        function attachCostListeners() {
+            document.querySelectorAll('.cost-row').forEach(row => {
+                row.querySelectorAll('input, select').forEach(el => {
+                    el.removeEventListener('input', calculateCosts);
+                    el.addEventListener('input', calculateCosts);
+                });
+            });
+        }
+
+        function calculateCosts() {
+            let total = 0;
+            appState.costs = [];
+            document.querySelectorAll('.cost-row').forEach(row => {
+                const desc = row.querySelector('.c-desc').value;
+                const type = row.querySelector('.c-type').value;
+                const pain = parseInt(row.querySelector('.c-pain').value);
+                total += pain;
+                if (desc) appState.costs.push({ desc, type, pain });
+            });
+            document.getElementById('total-costs').textContent = total + '/50';
+            const pct = Math.round((total/50)*100);
+            document.getElementById('costs-percent').textContent = pct + '%';
+            document.getElementById('costs-bar').style.width = pct + '%';
+        }
+
+        // Expected Value
+        function updateEV() {
+            const base = parseFloat(document.getElementById('base-rate').value);
+            const mot = parseFloat(document.getElementById('motivation-adj').value);
+            const over = parseFloat(document.getElementById('overlap-adj').value);
+            const time = parseFloat(document.getElementById('time-adj').value);
+            const track = parseFloat(document.getElementById('track-record-adj').value);
+            let successProb = base + mot + over + time + track;
+            successProb = Math.max(0, Math.min(100, successProb));
+            document.getElementById('base-rate-val').textContent = base + '%';
+            document.getElementById('motivation-val').textContent = (mot >= 0 ? '+' : '') + mot;
+            document.getElementById('overlap-val').textContent = over;
+            document.getElementById('time-val').textContent = (time >= 0 ? '+' : '') + time;
+            document.getElementById('track-val').textContent = (track >= 0 ? '+' : '') + track;
+            document.getElementById('success-prob-value').textContent = successProb.toFixed(0) + '%';
+            document.getElementById('prob-breakdown').textContent = `${base} + ${mot} + ${over} + ${time} + ${track} = ${successProb}%`;
+            const benefit = parseFloat(document.getElementById('benefit-success').value) || 0;
+            const netLoss = appState.financial.netLoss || 0;
+            document.getElementById('ev-purchase').textContent = (appState.financial.purchase || 0).toFixed(0);
+            document.getElementById('ev-resale').textContent = (appState.financial.resale || 0).toFixed(0);
+            document.getElementById('ev-net-loss').textContent = netLoss.toFixed(0);
+            if (benefit > 0) {
+                const p = successProb / 100;
+                const goodOut = p * benefit;
+                const badOut = (1 - p) * netLoss;
+                const ev = goodOut - badOut;
+                document.getElementById('ev-step1').textContent = `${successProb}% × ₹${benefit.toFixed(0)} = ₹${goodOut.toFixed(0)}`;
+                document.getElementById('ev-step2').textContent = `${(100-successProb)}% × ₹${netLoss.toFixed(0)} = ₹${badOut.toFixed(0)}`;
+                document.getElementById('ev-step3').textContent = `₹${goodOut.toFixed(0)} - ₹${badOut.toFixed(0)} = ${ev >= 0 ? '+' : ''}₹${ev.toFixed(0)}`;
+                document.getElementById('ev-result').textContent = (ev >= 0 ? '+' : '') + '₹' + ev.toFixed(0);
+                document.getElementById('ev-verdict').textContent = ev > 0 ? '✅ Positive EV' : ev === 0 ? '⚖️ Break-even' : '❌ Negative EV';
+                document.getElementById('ev-calc-display').style.display = 'block';
+                const threshold = netLoss / (benefit + netLoss);
+                const thresholdPct = threshold * 100;
+                document.getElementById('threshold-value').textContent = thresholdPct.toFixed(0) + '%';
+                document.getElementById('your-success-rate').textContent = successProb.toFixed(0) + '%';
+                document.getElementById('threshold-display').style.display = 'block';
+                appState.expectedValue = { successProb, benefit, netLoss, ev, threshold: thresholdPct };
+            }
+        }
+
+        // Sensitivity Analysis
+        function generateSensitivity() {
+            const benefit = appState.expectedValue.benefit || 0;
+            const netLoss = appState.expectedValue.netLoss || 0;
+            if (!benefit) return;
+            const rates = [10, 20, 25, 30, 40, 50, 60, 70, 80];
+            let html = '<table class="sensitivity-table"><thead><tr><th>Success Rate</th><th>Expected Value</th><th>Verdict</th></tr></thead><tbody>';
+            const currentRate = Math.round(appState.expectedValue.successProb || 50);
+            rates.forEach(rate => {
+                const p = rate / 100;
+                const ev = (p * benefit) - ((1 - p) * netLoss);
+                const verdict = ev > 0 ? '✅ Positive' : ev === 0 ? '⚖️ Zero' : '❌ Negative';
+                const highlight = rate === currentRate ? ' class="highlight"' : '';
+                html += `<tr${highlight}><td>${rate}%</td><td>${ev >= 0 ? '+' : ''}₹${Math.round(ev).toLocaleString()}</td><td>${verdict}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('sensitivity-table').innerHTML = html;
+        }
+
+        // Risk Analysis
+        function calculateRisk() {
+            const wLoss = parseFloat(document.getElementById('worst-loss').value) || 0;
+            const wProb = parseFloat(document.getElementById('worst-prob').value) || 20;
+            const bValue = parseFloat(document.getElementById('base-value').value) || 0;
+            const bProb = parseFloat(document.getElementById('base-prob').value) || 50;
+            const bestValue = parseFloat(document.getElementById('best-value').value) || 0;
+            const bestProb = parseFloat(document.getElementById('best-prob').value) || 30;
+            const weighted = (-wLoss * wProb/100) + (bValue * bProb/100) + (bestValue * bestProb/100);
+            document.getElementById('max-downside').textContent = '-₹' + wLoss.toLocaleString();
+            document.getElementById('weighted-expected').textContent = (weighted >= 0 ? '+' : '') + '₹' + Math.round(weighted).toLocaleString();
+            document.getElementById('upside-potential').textContent = '+₹' + bestValue.toLocaleString();
+            const ratio = wLoss > 0 ? (bestValue / wLoss).toFixed(2) : '0';
+            document.getElementById('risk-reward').textContent = '1:' + ratio;
+            appState.risk = { worstLoss: wLoss, weighted, upside: bestValue, ratio };
+        }
+
+        // Bias Detection
+        function updateBiases() {
+            appState.biases = [];
+            document.querySelectorAll('.bias-check:checked').forEach(cb => appState.biases.push(cb.value));
+            const count = appState.biases.length;
+            const percent = Math.round((count / 23) * 100);
+            document.getElementById('bias-count').textContent = count + '/23';
+            document.getElementById('bias-percent').textContent = percent + '%';
+            let severity = '';
+            if (percent < 20) severity = '🟢 Low';
+            else if (percent < 40) severity = '🟡 Moderate';
+            else severity = '🔴 Severe';
+            document.getElementById('bias-severity').textContent = severity;
+        }
+
+        // Regret Calculation
+        function calculateRegret() {
+            const days = parseInt(document.getElementById('regret-10days').value);
+            const months = parseInt(document.getElementById('regret-10months').value);
+            const years = parseInt(document.getElementById('regret-10years').value);
+            if (isNaN(days) || isNaN(months) || isNaN(years)) return;
+            const avg = (days + months + years) / 3;
+            document.getElementById('avg-regret').textContent = avg.toFixed(1);
+            let verdict = '';
+            if (avg < 1) verdict = '✅ Low regret risk';
+            else if (avg < 2) verdict = '🟡 Moderate regret';
+            else verdict = '🔴 High regret risk';
+            document.getElementById('regret-verdict').textContent = verdict;
+            document.getElementById('regret-result').style.display = 'block';
+            appState.regret = { days, months, years, avg };
+        }
+
+        // History Check
+        function toggleHistoryFields() {
+            const val = document.getElementById('bought-similar').value;
+            document.getElementById('history-fields').style.display = val === 'yes' ? 'block' : 'none';
+        }
+
+        // Generate Final Insights
+        function generateInsights() {
+            let score = 0;
+            const benefitsTotal = appState.benefits.reduce((sum, b) => sum + b.score, 0);
+            const costsTotal = appState.costs.reduce((sum, c) => sum + c.pain, 0);
+            const ev = appState.expectedValue.ev || 0;
+            const cpu = appState.financial.cpu || 0;
+            const biasCount = appState.biases.length;
+            const regretAvg = appState.regret.avg || 0;
+            
+            // Scoring
+            if (ev > 0) score += 20;
+            if (cpu < 1000) score += 20;
+            if (benefitsTotal > costsTotal) score += 20;
+            if (biasCount <= 5) score += 15;
+            if (regretAvg < 1.5) score += 15;
+            if (appState.financial.year1 / appState.basicInfo.budget < 0.3) score += 10;
+            
+            appState.finalScore = score;
+            let rec = '', recClass = '';
+            if (score >= 75) { rec = '✅ GO'; recClass = 'badge-go'; }
+            else if (score >= 55) { rec = '⏳ WAIT 48H'; recClass = 'badge-wait'; }
+            else { rec = '❌ NO'; recClass = 'badge-no'; }
+            appState.recommendation = rec;
+            
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('recommendation-badge').textContent = rec;
+            document.getElementById('recommendation-badge').className = 'recommendation-badge ' + recClass;
+            document.getElementById('recommendation-text').textContent = score >= 75 ? 'Proceed with confidence' : score >= 55 ? 'Wait 48-72 hours before deciding' : 'Skip this purchase';
+            
+            // Metrics
+            document.getElementById('insight-cpu').textContent = '₹' + cpu.toFixed(0);
+            document.getElementById('insight-ev').textContent = (ev >= 0 ? '+' : '') + '₹' + ev.toFixed(0);
+            document.getElementById('insight-roi').textContent = (ev > 0 ? (ev/appState.financial.purchase*100).toFixed(0) : 0) + '%';
+            document.getElementById('insight-budget').textContent = (appState.financial.year1/appState.basicInfo.budget*100).toFixed(1) + '%';
+            document.getElementById('insight-biases').textContent = biasCount + '/23';
+            document.getElementById('insight-emotion').textContent = Math.round((biasCount/23)*100) + '%';
+            document.getElementById('insight-regret').textContent = regretAvg < 1 ? 'Low' : regretAvg < 2 ? 'Medium' : 'High';
+            document.getElementById('insight-quality').textContent = '★'.repeat(Math.ceil(score/20)) + '☆'.repeat(5-Math.ceil(score/20));
+            document.getElementById('insight-benefits-total').textContent = benefitsTotal;
+            document.getElementById('insight-costs-total').textContent = costsTotal;
+            document.getElementById('insight-downside').textContent = '-₹' + (appState.risk.worstLoss || 0).toLocaleString();
+            document.getElementById('insight-expected').textContent = (appState.risk.weighted >= 0 ? '+' : '') + '₹' + Math.round(appState.risk.weighted || 0).toLocaleString();
+            document.getElementById('insight-risk-reward').textContent = '1:' + (appState.risk.ratio || 0);
+            
+            // Insights
+            const strengths = [];
+            const concerns = [];
+            const actions = [];
+            if (ev > 0) strengths.push('Positive expected value (+₹' + ev.toFixed(0) + ')');
+            if (cpu < 1000) strengths.push('Good cost per use (₹' + cpu.toFixed(0) + ')');
+            if (benefitsTotal > costsTotal) strengths.push('Benefits outweigh costs');
+            if (biasCount <= 5) strengths.push('Low bias contamination');
+            if (ev <= 0) concerns.push('Negative or zero expected value');
+            if (cpu >= 1000) concerns.push('High cost per use');
+            if (biasCount > 5) concerns.push(biasCount + ' cognitive biases detected');
+            if (regretAvg >= 2) concerns.push('High regret risk');
+            if (score >= 75) {
+                actions.push('Proceed with purchase');
+                actions.push('Set 3-month review reminder');
+            } else if (score >= 55) {
+                actions.push('Wait 48-72 hours');
+                actions.push('Test/trial if possible');
+            } else {
+                actions.push('Skip this purchase');
+                actions.push('Explore alternatives');
+            }
+            
+            document.getElementById('strengths-list').innerHTML = strengths.map(s => '<li>' + s + '</li>').join('');
+            document.getElementById('concerns-list').innerHTML = concerns.map(c => '<li>' + c + '</li>').join('');
+            document.getElementById('actions-list').innerHTML = actions.map(a => '<li>' + a + '</li>').join('');
+            
+            goToTab('insights');
+        }
+
+        // History Management
+        function saveToHistory() {
+            const decision = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                title: appState.basicInfo.title,
+                score: appState.finalScore,
+                recommendation: appState.recommendation
+            };
+            appState.savedDecisions.push(decision);
+            alert('✅ Decision saved to history!');
+        }
+
+        function renderHistory() {
+            const total = appState.savedDecisions.length;
+            const avgScore = total > 0 ? Math.round(appState.savedDecisions.reduce((sum, d) => sum + d.score, 0) / total) : 0;
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-avg').textContent = avgScore;
+            document.getElementById('stat-accuracy').textContent = 'N/A';
+            if (total === 0) {
+                document.getElementById('history-list').innerHTML = '<p style="text-align:center;color:var(--color-text-secondary);padding:32px;">No decisions saved yet</p>';
+            } else {
+                const html = appState.savedDecisions.map(d => {
+                    const date = new Date(d.date).toLocaleDateString();
+                    return `<div class="form-section"><h3>${d.title}</h3><p>Date: ${date} | Score: ${d.score}/100 | ${d.recommendation}</p></div>`;
+                }).join('');
+                document.getElementById('history-list').innerHTML = html;
+            }
+        }
+
+        function loadExample() {
+            document.getElementById('decision-title').value = 'Buy GoPro Hero 12';
+            document.getElementById('decision-goal').value = 'Capture travel content for YouTube';
+            document.getElementById('total-budget').value = '200000';
+            document.getElementById('purchase-cost').value = '45000';
+            document.getElementById('monthly-recurring').value = '500';
+            document.getElementById('annual-maintenance').value = '3000';
+            document.getElementById('resale-value').value = '20000';
+            document.getElementById('yearly-uses').value = '12';
+            startNewAssessment();
+            alert('📄 Example data loaded!');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            addBenefit();
+            addCost();
+        });
+    </script>
+</body>
+</html>
